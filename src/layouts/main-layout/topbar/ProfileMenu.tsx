@@ -82,7 +82,7 @@ const ProfileMenu = () => {
                 bgcolor: theme.palette.primary.main,
               })}
             />
-            <Typography variant="subtitle2">Mr. John</Typography>
+            <Typography variant="subtitle2">Mr. A K( Anirudh )</Typography>
           </Stack>
         </ButtonBase>
       </Tooltip>
@@ -120,10 +120,10 @@ const ProfileMenu = () => {
           />
           <Stack direction="column">
             <Typography variant="body2" fontWeight={500}>
-              John Carter
+             Anirudh Kala
             </Typography>
             <Typography variant="caption" fontWeight={400} color="text.secondary">
-              john@example.com
+              anirudhkala110@gmail.com
             </Typography>
           </Stack>
         </MenuItem>

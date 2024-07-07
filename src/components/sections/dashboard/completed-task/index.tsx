@@ -21,7 +21,7 @@ const CompletedTask = () => {
       <Stack mt={1.5} alignItems="center" justifyContent="space-between">
         <Stack alignItems="center" gap={0.875}>
           <Typography variant="h3" fontWeight={600} letterSpacing={1}>
-            257
+            27
           </Typography>
           <RateChip rate={'16.8%'} isUp={true} />
         </Stack>

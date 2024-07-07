@@ -36,20 +36,20 @@ const languages: Language[] = [
   },
   {
     id: 4,
-    code: 'zh',
-    lang: '中文',
-    flag: 'twemoji:flag-china',
+    code: 'Hn',
+    lang: 'हिंदी',
+    flag: 'twemoji:flag-india',
   },
   {
     id: 5,
-    code: 'tr',
-    lang: 'Türkçe',
-    flag: 'twemoji:flag-turkey',
+    code: 'Cad',
+    lang: 'Canadian',
+    flag: 'twemoji:flag-canada',
   },
 ];
 
 const LanguageSelect = () => {
-  const [language, setLanguage] = useState(languages[0]);
+  const [language, setLanguage] = useState(languages[3]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 

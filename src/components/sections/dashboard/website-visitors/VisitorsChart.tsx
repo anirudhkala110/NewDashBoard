@@ -51,14 +51,14 @@ const VisitorsChart = ({ chartRef, ...rest }: PolarBarChartProps) => {
           data: [
             {
               type: 'Direct',
-              value: 50,
+              value: 15,
               itemStyle: {
                 color: theme.palette.secondary.main,
               },
             },
             {
               type: 'Social',
-              value: 60,
+              value: 5,
               itemStyle: {
                 color: theme.palette.secondary.lighter,
               },
@@ -84,7 +84,7 @@ const VisitorsChart = ({ chartRef, ...rest }: PolarBarChartProps) => {
           left: 'center',
           top: 'middle',
           style: {
-            text: '150k',
+            text: '1.50k',
             fill: theme.palette.text.primary,
             fontSize: theme.typography.h3.fontSize,
             fontFamily: fontFamily.workSans,

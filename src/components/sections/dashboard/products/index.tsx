@@ -9,14 +9,14 @@ import Product from './Product';
 const productsData = [
   {
     id: 1,
-    name: 'iPhone 14 Pro Max',
+    name: 'Lightning Detector',
     imageUrl: iPhone,
     inStock: 524,
     price: '1,099.00',
   },
   {
     id: 2,
-    name: 'Apple Watch S8',
+    name: 'Auto Robo',
     imageUrl: AWS8,
     inStock: 320,
     price: '799.00',
@@ -27,12 +27,12 @@ const Products = () => {
   return (
     <Stack direction="column" gap={3.75} component={Paper} height={300}>
       <Typography variant="h6" fontWeight={400} fontFamily={fontFamily.workSans}>
-        Products
+        Devices
       </Typography>
 
       <Stack justifyContent="space-between">
         <Typography variant="caption" fontWeight={400}>
-          Products
+          Devices
         </Typography>
         <Typography variant="caption" fontWeight={400}>
           Price

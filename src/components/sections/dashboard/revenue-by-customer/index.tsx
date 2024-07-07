@@ -14,15 +14,15 @@ export const revenueData = {
   series: [
     {
       name: 'Current clients',
-      data: [14000, 30000, 38000, 36000, 16000, 24000, 10000, 44000, 12000, 6000, 12000, 24000],
+      data: [1400, 3000, 3800, 3600, 1600, 2400, 100, 440, 120, 600, 120, 240],
     },
     {
       name: 'Subscribers',
-      data: [12000, 20000, 26000, 12000, 10000, 32000, 6000, 8000, 12000, 18000, 16000, 6000],
+      data: [1200, 2000, 2600, 1200, 1000, 3200, 5560, 80, 1020, 1800, 8160, 6000],
     },
     {
       name: 'New customers',
-      data: [12000, 26000, 24000, 24000, 8000, 14000, 0, 38000, 14000, 30000, 16000, 28000],
+      data: [1200, 2600, 2400, 2400, 800, 1400, 0, 380, 140, 6300, 1060, 280],
     },
   ],
 };
@@ -41,7 +41,7 @@ const RevenueByCustomer = () => {
       <Stack justifyContent="space-between" mt={1}>
         <Stack alignItems="center" gap={0.875}>
           <Typography variant="h3" fontWeight={600} letterSpacing={1}>
-            $240.8K
+            24.8K
           </Typography>
           <RateChip rate={'14.8%'} isUp={true} />
         </Stack>

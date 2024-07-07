@@ -12,9 +12,10 @@ const Footer = () => {
       sx={{ textAlign: { xs: 'center', md: 'right' } }}
       letterSpacing={0.5}
     >
-      Created by{' '}
-      <Link href="https://github.com/riazul01" target="_blank" rel="noreferrer">
-        {'@riazul01'}
+      Created by {' '}
+      <Link href="https://github.com/anirudhkala110" target="_blank" rel="noreferrer">
+        {'@anirudhkala110'} &nbsp;&nbsp;
+        {'ref: @riazul01'}
       </Link>
     </Typography>
   );

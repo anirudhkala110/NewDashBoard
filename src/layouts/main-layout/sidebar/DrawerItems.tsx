@@ -31,9 +31,9 @@ const DrawerItems = () => {
         zIndex={1000}
       >
         <ButtonBase component={Link} href="/" disableRipple>
-          <Image src={LogoImg} alt="logo" height={24} width={24} sx={{ mr: 1 }} />
+          <Image src={LogoImg} alt="logo" height={24} width={24} sx={{ mr: 1 }} style={{ borderRadius: '50%' }} />
           <Typography variant="h5" color="text.primary" fontWeight={600} letterSpacing={1}>
-            Dashdark X
+            AK's (Admin)
           </Typography>
         </ButtonBase>
       </Stack>
@@ -79,10 +79,10 @@ const DrawerItems = () => {
           variant="contained"
           color="primary"
           size="large"
-          endIcon={<IconifyIcon icon="mingcute:arrow-right-line" />}
+          endIcon={<IconifyIcon icon="mingcute:arrow-left-line" />}
           sx={{ width: 1 }}
         >
-          Get template
+          {/* Get template */}
         </Button>
       </Box>
     </>

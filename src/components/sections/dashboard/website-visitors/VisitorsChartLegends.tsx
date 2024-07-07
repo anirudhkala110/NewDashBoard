@@ -17,12 +17,12 @@ export const legendsData = [
   {
     id: 2,
     type: 'Social',
-    rate: '60%',
+    rate: '5%',
   },
   {
     id: 3,
     type: 'Direct',
-    rate: '50%',
+    rate: '15%',
   },
 ];
 

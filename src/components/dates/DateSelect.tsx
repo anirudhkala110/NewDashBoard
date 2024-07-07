@@ -8,7 +8,7 @@ const DateSelect = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
         views={['month', 'year']}
-        defaultValue={dayjs('Jan-2024')}
+        defaultValue={dayjs('Jun-2024')}
         format="MMM YYYY"
         sx={(theme) => ({
           boxShadow: 0,

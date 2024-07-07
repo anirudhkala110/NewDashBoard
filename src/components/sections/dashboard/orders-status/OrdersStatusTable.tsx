@@ -69,7 +69,7 @@ const OrdersStatusTable = () => {
   const columns: GridColDef[] = [
     {
       field: 'id',
-      headerName: 'Order',
+      headerName: 'Device ID',
       minWidth: 80,
       flex: 1,
       resizable: false,
@@ -159,9 +159,9 @@ const OrdersStatusTable = () => {
         };
         return (
           <Select value={params.value} onChange={handleChange} fullWidth>
-            <MenuItem value="delivered">Delivered</MenuItem>
-            <MenuItem value="pending">Pending</MenuItem>
-            <MenuItem value="canceled">Canceled</MenuItem>
+            <MenuItem value="Working">Working</MenuItem>
+            <MenuItem value="Error">Error</MenuItem>
+            <MenuItem value="Off">Turned Off</MenuItem>
           </Select>
         );
       },

@@ -2,7 +2,7 @@ import Chip from '@mui/material/Chip';
 import IconifyIcon from 'components/base/IconifyIcon';
 
 interface StatusChipProps {
-  status: 'delivered' | 'canceled' | 'pending';
+  status: 'Working' | 'Error' | 'Off';
 }
 
 const StatusChip = ({ status }: StatusChipProps) => {
@@ -15,9 +15,9 @@ const StatusChip = ({ status }: StatusChipProps) => {
           icon="radix-icons:dot-filled"
           sx={(theme) => ({
             color:
-              status === 'delivered'
+              status === 'Working'
                 ? `${theme.palette.success.main} !important`
-                : status === 'pending'
+                : status === 'Off'
                   ? `${theme.palette.warning.main} !important`
                   : `${theme.palette.error.main} !important`,
           })}
@@ -29,22 +29,22 @@ const StatusChip = ({ status }: StatusChipProps) => {
         width: 80,
         justifyContent: 'center',
         color:
-          status === 'delivered'
+          status === 'Working'
             ? 'success.main'
-            : status === 'pending'
+            : status === 'Off'
               ? 'warning.main'
               : 'error.main',
         letterSpacing: 0.5,
         bgcolor:
-          status === 'delivered'
+          status === 'Working'
             ? 'transparent.success.main'
-            : status === 'pending'
+            : status === 'Off'
               ? 'transparent.warning.main'
               : 'transparent.error.main',
         borderColor:
-          status === 'delivered'
+          status === 'Working'
             ? 'transparent.success.main'
-            : status === 'pending'
+            : status === 'Off'
               ? 'transparent.warning.main'
               : 'transparent.error.main',
       }}

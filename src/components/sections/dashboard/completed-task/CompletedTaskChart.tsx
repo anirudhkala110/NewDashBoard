@@ -28,7 +28,7 @@ const CompletedTaskChart = ({ ...rest }: CompletedTaskChartProps) => {
       },
       xAxis: {
         type: 'category',
-        data: ['Jan1', 'Jan8', 'Jan16', 'Jan24', 'Jan31', 'Feb1', 'Feb8', 'Feb16', 'Feb24'],
+        data: ['Jun 1', 'Jun 8', 'Jun 16', 'Jun 24', 'Jun 31', 'July 1', 'July 8', 'July 16', 'July 24'],
         axisTick: {
           show: false,
         },
@@ -57,7 +57,7 @@ const CompletedTaskChart = ({ ...rest }: CompletedTaskChartProps) => {
       },
       series: [
         {
-          data: [0, 130, 130, 300, 90, 220, 180, 240, 90],
+          data: [0, 130, 130, 30, 90, 220, 180, 240, 190],
           type: 'line',
           showSymbol: false,
           lineStyle: {
