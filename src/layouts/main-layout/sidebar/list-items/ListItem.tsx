@@ -18,7 +18,7 @@ const ListItem = ({ subheader, icon, path, active }: MenuItem) => {
       component={Link}
       href={path}
       onClick={handleClick}
-      sx={{ opacity: active ? 1 : 0.3 }}
+      sx={{ opacity: active ? 1 : 0.8 }}
     >
       <ListItemIcon>
         {icon && (
