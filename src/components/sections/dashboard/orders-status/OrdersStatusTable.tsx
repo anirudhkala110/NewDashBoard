@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { GridRowsProp } from '@mui/x-data-grid';
 import DataGridFooter from 'components/common/DataGridFooter';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
+
+import './Main.css';
 
 // Define the interface for the new data structure
 export interface OrderRow {
@@ -58,7 +60,6 @@ const OrdersStatusTable = () => {
   const rows = useOrdersStatusData();
 
   const columns: GridColDef[] = [
-    // { field: 'id', headerName: 'Order ID', minWidth: 100, flex: 1, resizable: false },
     { field: 'barcode', headerName: 'Barcode', minWidth: 150, flex: 1, resizable: false },
     { field: 'address', headerName: 'Address', minWidth: 200, flex: 2, resizable: false },
     { field: 'latitude', headerName: 'Latitude', minWidth: 120, flex: 1, resizable: false },
@@ -69,28 +70,48 @@ const OrdersStatusTable = () => {
     { field: 'data', headerName: 'Data', minWidth: 100, flex: 1, resizable: false },
   ];
 
+  // Custom renderCell function to apply styling based on d_report field
+  const renderCell = (params: GridRowParams<OrderRow>) => {
+    const isReportChecked = params.row.d_report ; // Adjust condition based on your data
+
+    // Ensure params.field is of type keyof OrderRow to avoid type errors
+    const field = params.field as keyof OrderRow;
+
+    return (
+      <div className={isReportChecked==='Check' ? 'btn btn-outline-success p-1 ' :isReportChecked==='warn' ? 'btn-outline-warning p-1': 'btn-outline-danger p-1'} style={{background:'',color:''}}>
+        {params.row[field]}
+      </div>
+    );
+  };
+
   return (
-    <DataGrid
-      rows={rows}
-      columns={columns}
-      rowHeight={50}
-      editMode="row"
-      initialState={{
-        pagination: {
-          paginationModel: {
-            pageSize: 10,
+    <>
+      <DataGrid
+        rows={rows}
+        columns={columns.map((column) => ({
+          ...column,
+          renderCell: column.field === 'd_report' ? renderCell : undefined, // Apply custom renderCell for d_report column
+        }))}
+        rowHeight={50}
+        editMode="row"
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 10,
+            },
           },
-        },
-      }}
-      checkboxSelection
-      pageSizeOptions={[10]}
-      disableColumnMenu
-      disableVirtualization
-      disableRowSelectionOnClick
-      slots={{
-        footer: DataGridFooter,
-      }}
-    />
+        }}
+        checkboxSelection
+        pageSizeOptions={[10]}
+        disableColumnMenu={false}
+        disableVirtualization={true}
+        disableRowSelectionOnClick={true}
+        className=''
+        slots={{
+          footer: DataGridFooter,
+        }}
+      />
+    </>
   );
 };
 
