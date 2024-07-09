@@ -78,7 +78,7 @@ const OrdersStatusTable = () => {
     const field = params.field as keyof OrderRow;
 
     return (
-      <div className={isReportChecked==='Check' ? 'btn btn-outline-success p-1 ' :isReportChecked==='warn' ? 'btn-outline-warning p-1': 'btn-outline-danger p-1'} style={{background:'',color:''}}>
+      <div className={isReportChecked==='Check' ? 'btn btn-outline-success p-1 w-100' :isReportChecked==='warn' ? 'btn-outline-warning w-100 btn p-1': 'btn-outline-danger btn w-100 p-1'} style={{background:'',color:''}}>
         {params.row[field]}
       </div>
     );
