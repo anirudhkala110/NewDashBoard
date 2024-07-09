@@ -1,5 +1,7 @@
 import Grid from '@mui/material/Grid';
 import TopCard from './TopCard';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const cardsData = [
   {
@@ -37,6 +39,17 @@ const cardsData = [
 ];
 
 const TopCards = () => {
+  const [size, setSize] = useState()
+  useEffect(() => {
+    axios.get('http://localhost:5021/getAllData')
+      .then(res => {
+        console.log(res.data.data.length)
+        setSize(res.data.data.length)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  })
   return (
     <Grid container spacing={{ xs: 2.5, sm: 3, lg: 3.75 }}>
       {cardsData.map((item) => {
@@ -44,7 +57,7 @@ const TopCards = () => {
           <TopCard
             key={item.id}
             title={item.title}
-            value={item.value}
+            value={`${size}k`}
             rate={item.rate}
             isUp={item.isUp}
             icon={item.icon}

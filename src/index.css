@@ -73,3 +73,7 @@
   font-weight: 900;
   font-style: normal;
 }
+
+body {
+  min-width: 300px !important;
+}

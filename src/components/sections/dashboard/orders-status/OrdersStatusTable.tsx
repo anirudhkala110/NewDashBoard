@@ -1,300 +1,94 @@
-import { useState } from 'react';
-import { format } from 'date-fns';
-import { ordersStatusData } from 'data/ordersStatusData';
-import { SelectChangeEvent } from '@mui/material';
-import Stack from '@mui/material/Stack';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
-import StatusChip from 'components/chips/StatusChip';
-import IconifyIcon from 'components/base/IconifyIcon';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { GridRowsProp } from '@mui/x-data-grid';
 import DataGridFooter from 'components/common/DataGridFooter';
-import {
-  GridRowModesModel,
-  GridRowModes,
-  DataGrid,
-  GridColDef,
-  GridActionsCellItem,
-  GridRenderEditCellParams,
-  GridEventListener,
-  GridRowId,
-  GridRowModel,
-  GridRowEditStopReasons,
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+
+// Define the interface for the new data structure
+export interface OrderRow {
+  id: number;
+  barcode: number;
+  address: string;
+  latitude: number | null;
+  longitude: number | null;
+  version: number;
+  d_report: string;
+  userLinked: string;
+  data: string;
+}
+
+// Function to parse the address field and extract latitude and longitude
+const parseAddress = (address: string) => {
+  const latLonRegex = /Latitude:\s*([0-9.]+)\s*\|\s*Longitude:\s*([0-9.]+)/;
+  const match = address.match(latLonRegex);
+  if (match) {
+    return {
+      latitude: parseFloat(match[1]),
+      longitude: parseFloat(match[2]),
+      address: address.replace(latLonRegex, '').trim(),
+    };
+  }
+  return { latitude: null, longitude: null, address };
+};
+
+const useOrdersStatusData = () => {
+  const [data, setData] = useState<GridRowsProp<OrderRow>>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get<{ data: OrderRow[] }>('http://localhost:5021/getAllData');
+        const processedData = res.data.data.map((item) => {
+          const { latitude, longitude, address } = parseAddress(item.address);
+          return { ...item, latitude, longitude, address };
+        });
+        setData(processedData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return data;
+};
 
 const OrdersStatusTable = () => {
-  const [rows, setRows] = useState(ordersStatusData);
-  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
-
-  const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
-    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      event.defaultMuiPrevented = true;
-    }
-  };
-
-  const handleEditClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  };
-
-  const handleSaveClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  };
-
-  const handleDeleteClick = (id: GridRowId) => () => {
-    setRows(rows.filter((row) => row.id !== id));
-  };
-
-  const handleCancelClick = (id: GridRowId) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    });
-
-    const editedRow = rows.find((row) => row.id === id);
-    if (editedRow!.isNew) {
-      setRows(rows.filter((row) => row.id !== id));
-    }
-  };
-
-  const processRowUpdate = (newRow: GridRowModel) => {
-    const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    return updatedRow;
-  };
-
-  const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
-    setRowModesModel(newRowModesModel);
-  };
+  const rows = useOrdersStatusData();
 
   const columns: GridColDef[] = [
-    {
-      field: 'id',
-      headerName: 'Device ID',
-      minWidth: 80,
-      flex: 1,
-      resizable: false,
-    },
-    {
-      field: 'client',
-      headerName: 'Client',
-      flex: 2,
-      minWidth: 180,
-      resizable: false,
-      renderHeader: () => (
-        <Stack alignItems="center" gap={0.75}>
-          <IconifyIcon icon="mingcute:user-2-fill" color="neutral.main" fontSize="body2.fontSize" />
-          <Typography variant="caption" mt={0.25} letterSpacing={0.5}>
-            Client
-          </Typography>
-        </Stack>
-      ),
-      valueGetter: (params: { name: string; email: string }) => {
-        return `${params.name} ${params.email}`;
-      },
-      renderCell: (params) => {
-        return (
-          <Stack direction="column" alignSelf="center" justifyContent="center" sx={{ height: 1 }}>
-            <Typography variant="subtitle1" fontSize="caption.fontSize">
-              {params.row.client.name}
-            </Typography>
-            <Typography variant="subtitle2" color="text.secondary" fontSize="caption.fontSize">
-              {params.row.client.email}
-            </Typography>
-          </Stack>
-        );
-      },
-      sortComparator: (v1, v2) => v1.localeCompare(v2),
-    },
-    {
-      field: 'date',
-      type: 'date',
-      headerName: 'Date',
-      editable: true,
-      minWidth: 100,
-      flex: 1,
-      resizable: false,
-      renderHeader: () => (
-        <Stack alignItems="center" gap={0.75}>
-          <IconifyIcon icon="mdi:calendar" color="neutral.main" fontSize="body1.fontSize" />
-          <Typography mt={0.175} variant="caption" letterSpacing={0.5}>
-            Date
-          </Typography>
-        </Stack>
-      ),
-      renderCell: (params) => format(new Date(params.value), 'MMM dd, yyyy'),
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
-      sortable: false,
-      minWidth: 120,
-      flex: 1,
-      resizable: false,
-      renderHeader: () => (
-        <Stack alignItems="center" gap={0.875}>
-          <IconifyIcon
-            icon="carbon:checkbox-checked-filled"
-            color="neutral.main"
-            fontSize="body1.fontSize"
-          />
-          <Typography mt={0.175} variant="caption" letterSpacing={0.5}>
-            Status
-          </Typography>
-        </Stack>
-      ),
-      renderCell: (params) => {
-        return (
-          <Stack direction="column" alignSelf="center" justifyContent="center" sx={{ height: 1 }}>
-            <StatusChip status={params.value} />
-          </Stack>
-        );
-      },
-      renderEditCell: (params: GridRenderEditCellParams) => {
-        const handleChange = (event: SelectChangeEvent<string>) => {
-          params.api.setEditCellValue({
-            id: params.id,
-            field: params.field,
-            value: event.target.value,
-          });
-        };
-        return (
-          <Select value={params.value} onChange={handleChange} fullWidth>
-            <MenuItem value="Working">Working</MenuItem>
-            <MenuItem value="Error">Error</MenuItem>
-            <MenuItem value="Off">Turned Off</MenuItem>
-          </Select>
-        );
-      },
-      editable: true,
-    },
-    {
-      field: 'country',
-      headerName: 'Country',
-      sortable: false,
-      flex: 1,
-      minWidth: 120,
-      resizable: false,
-      editable: true,
-      renderHeader: () => (
-        <Stack alignItems="center" gap={0.75}>
-          <IconifyIcon
-            icon="healthicons:geo-location"
-            color="neutral.main"
-            fontSize="h5.fontSize"
-          />
-          <Typography mt={0.175} variant="caption" letterSpacing={0.5}>
-            Country
-          </Typography>
-        </Stack>
-      ),
-    },
-    {
-      field: 'total',
-      headerName: 'Total',
-      headerAlign: 'right',
-      align: 'right',
-      sortable: false,
-      minWidth: 120,
-      flex: 1,
-      resizable: false,
-    },
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: '',
-      minWidth: 120,
-      flex: 1,
-      cellClassName: 'actions',
-      resizable: false,
-      getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={
-                <IconifyIcon
-                  color="primary.main"
-                  icon="mdi:content-save"
-                  sx={{ fontSize: 'body1.fontSize', pointerEvents: 'none' }}
-                />
-              }
-              label="Save"
-              onClick={handleSaveClick(id)}
-              size="small"
-            />,
-            <GridActionsCellItem
-              icon={
-                <IconifyIcon
-                  color="text.secondary"
-                  icon="iconamoon:sign-times-duotone"
-                  sx={{ fontSize: 'body1.fontSize', pointerEvents: 'none' }}
-                />
-              }
-              label="Cancel"
-              onClick={handleCancelClick(id)}
-              size="small"
-            />,
-          ];
-        }
-
-        return [
-          <GridActionsCellItem
-            icon={
-              <IconifyIcon
-                icon="fluent:edit-32-filled"
-                color="text.secondary"
-                sx={{ fontSize: 'body1.fontSize', pointerEvents: 'none' }}
-              />
-            }
-            label="Edit"
-            onClick={handleEditClick(id)}
-            size="small"
-          />,
-          <GridActionsCellItem
-            icon={
-              <IconifyIcon
-                icon="mingcute:delete-3-fill"
-                color="text.secondary"
-                sx={{ fontSize: 'body1.fontSize', pointerEvents: 'none' }}
-              />
-            }
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            size="small"
-          />,
-        ];
-      },
-    },
+    // { field: 'id', headerName: 'Order ID', minWidth: 100, flex: 1, resizable: false },
+    { field: 'barcode', headerName: 'Barcode', minWidth: 150, flex: 1, resizable: false },
+    { field: 'address', headerName: 'Address', minWidth: 200, flex: 2, resizable: false },
+    { field: 'latitude', headerName: 'Latitude', minWidth: 120, flex: 1, resizable: false },
+    { field: 'longitude', headerName: 'Longitude', minWidth: 120, flex: 1, resizable: false },
+    { field: 'version', headerName: 'Version', minWidth: 100, flex: 1, resizable: false },
+    { field: 'd_report', headerName: 'Device Report', minWidth: 100, flex: 1, resizable: false },
+    { field: 'userLinked', headerName: 'User Linked', minWidth: 120, flex: 1, resizable: false },
+    { field: 'data', headerName: 'Data', minWidth: 100, flex: 1, resizable: false },
   ];
 
   return (
     <DataGrid
       rows={rows}
       columns={columns}
-      rowHeight={80}
+      rowHeight={50}
       editMode="row"
       initialState={{
         pagination: {
           paginationModel: {
-            pageSize: 6,
+            pageSize: 10,
           },
         },
       }}
       checkboxSelection
-      pageSizeOptions={[6]}
+      pageSizeOptions={[10]}
       disableColumnMenu
       disableVirtualization
       disableRowSelectionOnClick
-      rowModesModel={rowModesModel}
-      onRowModesModelChange={handleRowModesModelChange}
-      onRowEditStop={handleRowEditStop}
-      processRowUpdate={processRowUpdate}
       slots={{
-        pagination: DataGridFooter,
-      }}
-      slotProps={{
-        toolbar: { setRows, setRowModesModel },
+        footer: DataGridFooter,
       }}
     />
   );
