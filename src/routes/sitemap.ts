@@ -73,17 +73,17 @@ const sitemap: MenuItem[] = [
     icon: 'material-symbols:settings-rounded',
     items: [
       {
-        name: 'Setting V1',
+        name: 'NA',
         path: '#!',
         pathName: 'setting-v1',
       },
       {
-        name: 'Setting V2',
+        name: 'NA',
         path: '#!',
         pathName: 'setting-v2',
       },
       {
-        name: 'Setting V3',
+        name: 'NA',
         path: '#!',
         pathName: 'setting-v3',
       },
@@ -96,25 +96,25 @@ const sitemap: MenuItem[] = [
     items: [
       {
         name: 'Page 01',
-        path: '#!',
+        path: '/',
         pathName: 'page-1',
       },
       {
         name: 'Page 02',
-        path: '#!',
+        path: '/',
         pathName: 'page-2',
       },
       {
         name: 'Page 03',
-        path: '#!',
+        path: '/',
         pathName: 'page-3',
       },
     ],
   },
   {
     id: 'account-settings',
-    subheader: 'John Carter',
-    path: '#!',
+    subheader: 'Anirudh Kala',
+    path: '/',
   },
 ];
 
