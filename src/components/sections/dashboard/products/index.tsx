@@ -1,46 +1,52 @@
-import { fontFamily } from 'theme/typography';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-// import iPhone from 'assets/images/iPhone.png';
-// import AWS8 from 'assets/images/AWS8.png';
-import Product from './Product';
+import { Paper, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Products = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({ msg: '', type1_count: 0, type2_count: 0, type3_count: 0 });
 
   useEffect(() => {
-    axios.get('http://localhost:5021/getAllData')
+    axios.get('http://localhost:5021/get_all_device_data')
       .then(res => {
-        setData(res.data.data);
+        // console.log("Data fetched:", res.data);
+        setData(res.data); // Assuming res.data contains { msg: 'Backend Connected...', type1_count: 20, type2_count: 20, type3_count: 20 }
       })
       .catch(err => {
-        console.log('Error fetching data:', err);
+        console.error('Error fetching data:', err);
       });
-  }, []); // Ensure useEffect runs only once by passing an empty dependency array
+  }, []); // Empty dependency array to run useEffect only once
 
   return (
-    <Stack direction="column" gap={3.75} component={Paper} height={300} padding={2} style={{overflow:'auto'}}>
-      <Typography variant="h6" fontWeight={400} fontFamily={fontFamily.workSans}>
+    <Paper elevation={3} style={{ padding: '20px', overflow: 'auto' }}>
+      <Typography variant="h4" fontWeight="bold">
         Devices
       </Typography>
+      <br/>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom={2}>
+        <Typography variant="subtitle2" fontWeight="bold">Devices</Typography>
+        <Typography variant="subtitle2" fontWeight="bold">Stock Sell </Typography>
+      </Stack>
+      <hr />
 
-      <Stack direction="row" justifyContent="space-between">
-        <Typography variant="caption" fontWeight={400}>
-          Devices
-        </Typography>
-        <Typography variant="caption" fontWeight={400}>
-          Price
-        </Typography>
+      {/* <Typography variant="body1">
+        Devices
+      </Typography> */}
+
+      <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom={2}>
+        <Typography variant="subtitle2">Device Type 1</Typography>
+        <Typography variant="subtitle2">{data.type1_count ? data.type1_count : 0} </Typography>
       </Stack>
 
-      {/* Render products from static data and fetched data */}
-      {data.map((item) => (
-        <Product key={item} item={item} />
-      ))}
-    </Stack>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom={2}>
+        <Typography variant="subtitle2">Device Type 2</Typography>
+        <Typography variant="subtitle2">{data.type2_count ? data.type2_count : 0}</Typography>
+      </Stack>
+
+      <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom={2}>
+        <Typography variant="subtitle2">Device Type 3 </Typography>
+        <Typography variant="subtitle2">{data.type3_count ? data.type3_count : 0}</Typography>
+      </Stack>
+    </Paper>
   );
 };
 

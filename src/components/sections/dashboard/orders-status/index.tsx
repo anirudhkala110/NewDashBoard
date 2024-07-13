@@ -11,8 +11,10 @@ const OrdersStatus = () => {
   return (
     <Paper sx={{ px: 0 }}>
       <Stack px={3.5} alignItems="center" justifyContent="space-between">
-        <Typography variant="h6" sx={{ fontWeight: 400, fontFamily: fontFamily.workSans }}>
-          Device Status
+        <Typography variant="h4" sx={{ fontWeight: 400, fontFamily: fontFamily.workSans }}>
+          <strong>
+          Users
+          </strong>
         </Typography>
         {/* <Stack spacing={1.5} alignItems="center">
           <DateSelect />

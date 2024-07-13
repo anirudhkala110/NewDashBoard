@@ -29,7 +29,7 @@ const Product = ({ item }: ProductInfoProps) => {
             {address}
           </Typography>
           <Typography variant="caption" color="text.secondary" fontWeight={500}>
-            {data}ed Device
+            {data}
           </Typography>
         </Stack>
       </Stack>

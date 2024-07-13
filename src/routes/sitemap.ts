@@ -68,6 +68,13 @@ const sitemap: MenuItem[] = [
     ],
   },
   {
+    id: 'user-info',
+    subheader: 'user-information',
+    path:'user_info',
+    icon: 'mingcute:safe-lock-fill',
+
+  },
+  {
     id: 'settings',
     subheader: 'Settings',
     icon: 'material-symbols:settings-rounded',

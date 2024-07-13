@@ -16,7 +16,7 @@ interface TopCardProps {
 }
 
 const TopCard = (props: TopCardProps) => {
-  const { icon, title, value, rate, isUp } = props;
+  const { title, value, icon } = props;
 
   return (
     <Grid item xs={12} sm={6} xl={3}>
@@ -27,7 +27,7 @@ const TopCard = (props: TopCardProps) => {
         component={Paper}
         gap={1.5}
         height={116}
-        width={1}
+        width={280}
       >
         <Stack justifyContent="space-between">
           <Stack alignItems="center" gap={1}>
@@ -50,7 +50,7 @@ const TopCard = (props: TopCardProps) => {
           <Typography variant="h3" fontWeight={600} letterSpacing={1}>
             {value}
           </Typography>
-          <RateChip rate={rate} isUp={isUp} />
+          {/* <RateChip rate={rate} isUp={isUp} /> */}
         </Stack>
       </Stack>
     </Grid>
