@@ -1,103 +1,82 @@
-import { SxProps, useTheme } from '@mui/material';
-import { fontFamily } from 'theme/typography';
-import { useMemo } from 'react';
-import * as echarts from 'echarts/core';
-import { BarChart } from 'echarts/charts';
-import { CanvasRenderer } from 'echarts/renderers';
-import { PolarComponent, TooltipComponent, GraphicComponent } from 'echarts/components';
-import ReactEchart from 'components/base/ReactEchart';
-import EChartsReactCore from 'echarts-for-react/lib/core';
+import React from 'react';
+import EChartsReact from 'echarts-for-react';
+import { Margin } from '@mui/icons-material';
 
-echarts.use([PolarComponent, TooltipComponent, GraphicComponent, BarChart, CanvasRenderer]);
+const VisitorsChart = ({ chartRef, deviceData }) => {
+  const processData = () => {
+    // Process the data to get counts of each device type
+    const typeCounts = deviceData.reduce((acc, device) => {
+      acc[device.type] = (acc[device.type] || 0) + 1;
+      return acc;
+    }, {});
 
-interface PolarBarChartProps {
-  chartRef: React.RefObject<EChartsReactCore>;
-  sx?: SxProps;
-}
+    return Object.keys(typeCounts).map(type => ({
+      name: `Device Type ${parseInt(type) + 1}`,
+      value: typeCounts[type],
+    }));
+  };
 
-const VisitorsChart = ({ chartRef, ...rest }: PolarBarChartProps) => {
-  const theme = useTheme();
+  const chartData = processData();
 
-  const option = useMemo(
-    () => ({
-      polar: {
-        radius: [80, '75%'],
+  const options = {
+    title: {
+      text: '',
+      left: 'center',
+      textStyle: {
+        color: 'white'
       },
-      angleAxis: {
-        max: 100,
-        startAngle: 180,
-        axisLine: {
-          show: false,
-        },
-        splitLine: {
-          show: false,
-        },
-        axisTick: {
-          show: false,
-        },
-        axisLabel: {
-          show: false,
-        },
+      margin: [40, 10, 10, 40] // Adjust top padding
+    },
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      orient: 'horizontal',
+      left: 'left',
+      top: 'top', // Adjust legend position
+      textStyle: {
+        color: 'white'
       },
-      radiusAxis: {
-        show: false,
-        type: 'category',
-        data: ['Direct', 'Social', 'Organic'],
-      },
-      tooltip: {},
-      series: [
-        {
-          type: 'bar',
-          data: [
-            {
-              type: 'Direct',
-              value: 15,
-              itemStyle: {
-                color: theme.palette.secondary.main,
-              },
-            },
-            {
-              type: 'Social',
-              value: 5,
-              itemStyle: {
-                color: theme.palette.secondary.lighter,
-              },
-            },
-            {
-              type: 'Organic',
-              value: 80,
-              itemStyle: {
-                color: theme.palette.primary.main,
-              },
-            },
-          ],
-          coordinateSystem: 'polar',
-          barCategoryGap: '35%',
-          label: {
-            show: false,
-          },
+      itemGap: 15, // Adjust spacing between legend items
+    },
+    grid: {
+      top: '20%', // Adjust the top position of the grid
+      bottom: '10%' // Adjust the bottom position of the grid
+    },
+    series: [
+      {
+        name: 'Devices',
+        type: 'pie',
+        radius: '50%',
+        data: chartData,
+        label: {
+          color: 'white'
         },
-      ],
-      graphic: [
-        {
-          type: 'text',
-          left: 'center',
-          top: 'middle',
-          style: {
-            text: '1.50k',
-            fill: theme.palette.text.primary,
-            fontSize: theme.typography.h3.fontSize,
-            fontFamily: fontFamily.workSans,
-            fontWeight: 500,
-            letterSpacing: 1,
-          },
+        labelLine: {
+          lineStyle: {
+            color: 'white'
+          }
         },
-      ],
-    }),
-    [theme],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(10, 10, 10, 0.8)'
+          }
+        }
+      }
+    ]
+  };
+
+  return (
+    <div>
+      <EChartsReact
+        ref={chartRef}
+        option={options}
+        style={{ height: '300px', width: '100%', border: '', display: '' }}
+      />
+    </div>
   );
-
-  return <ReactEchart ref={chartRef} echarts={echarts} option={option} {...rest} />;
 };
 
 export default VisitorsChart;

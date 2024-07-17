@@ -1,3 +1,4 @@
+import { useUser } from './context/UserContext';
 import paths from './paths';
 
 export interface SubMenuItem {
@@ -27,28 +28,10 @@ const sitemap: MenuItem[] = [
     active: true,
   },
   {
-    id: 'features',
-    subheader: 'Features',
-    path: '#!',
-    icon: 'mingcute:star-fill',
-  },
-  {
     id: 'users',
     subheader: 'Users',
-    path: '#!',
+    path: paths.users,
     icon: 'mingcute:user-2-fill',
-  },
-  {
-    id: 'pricing',
-    subheader: 'Pricing',
-    path: '#!',
-    icon: 'mingcute:currency-dollar-2-line',
-  },
-  {
-    id: 'integrations',
-    subheader: 'Integrations',
-    path: '#!',
-    icon: 'mingcute:plugin-2-fill',
   },
   {
     id: 'authentication',
@@ -69,59 +52,15 @@ const sitemap: MenuItem[] = [
   },
   {
     id: 'user-info',
-    subheader: 'user-information',
-    path:'user_info',
+    subheader: 'User Information',
+    path: paths.user_info,
     icon: 'mingcute:safe-lock-fill',
-
-  },
-  {
-    id: 'settings',
-    subheader: 'Settings',
-    icon: 'material-symbols:settings-rounded',
-    items: [
-      {
-        name: 'NA',
-        path: '#!',
-        pathName: 'setting-v1',
-      },
-      {
-        name: 'NA',
-        path: '#!',
-        pathName: 'setting-v2',
-      },
-      {
-        name: 'NA',
-        path: '#!',
-        pathName: 'setting-v3',
-      },
-    ],
-  },
-  {
-    id: 'template-pages',
-    subheader: 'Template pages',
-    icon: 'mingcute:document-2-fill',
-    items: [
-      {
-        name: 'Page 01',
-        path: '/',
-        pathName: 'page-1',
-      },
-      {
-        name: 'Page 02',
-        path: '/',
-        pathName: 'page-2',
-      },
-      {
-        name: 'Page 03',
-        path: '/',
-        pathName: 'page-3',
-      },
-    ],
   },
   {
     id: 'account-settings',
-    subheader: 'Anirudh Kala',
-    path: '/',
+    subheader: 'Your Account',
+    path: paths.user_info,
+    icon: 'material-symbols:settings-rounded',
   },
 ];
 

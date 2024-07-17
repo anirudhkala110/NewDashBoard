@@ -1,128 +1,92 @@
-import { useMemo } from 'react';
-import * as echarts from 'echarts/core';
-import { BarChart } from 'echarts/charts';
-import { CanvasRenderer } from 'echarts/renderers';
-import { SxProps, useTheme } from '@mui/material';
-import { fontFamily } from 'theme/typography';
-import {
-  TooltipComponent,
-  GridComponent,
-  DatasetComponent,
-  TransformComponent,
-} from 'echarts/components';
-import ReactEchart from 'components/base/ReactEchart';
-import EChartsReactCore from 'echarts-for-react/lib/core';
+import React, { useState } from 'react';
+import EChartsReact from 'echarts-for-react';
 
-echarts.use([
-  TooltipComponent,
-  GridComponent,
-  DatasetComponent,
-  TransformComponent,
-  BarChart,
-  CanvasRenderer,
-]);
+const RevenueChart = ({ chartRef, data, onClickBar }) => {
+  const [chartType, setChartType] = useState('bar'); // Default to bar chart
 
-interface BarChartProps {
-  data: {
-    categories: string[];
-    series: {
-      name: string;
-      data: number[];
-    }[];
+  const handleChartClick = (params: { componentType: string; seriesType: string; name: any; }) => {
+    // Check if the click happened on a bar
+    if (params.componentType === 'series' && params.seriesType === 'bar') {
+      setChartType('line')
+      onClickBar(params.name); // Pass the clicked month to the parent component
+    }
+    else {
+      setChartType('bar')
+      onClickBar(params.name); // Pass the clicked month to the parent component
+    }
   };
-  sx?: SxProps;
-  chartRef: React.RefObject<EChartsReactCore>;
-}
 
-const RevenueChart = ({ chartRef, data, ...rest }: BarChartProps) => {
-  const theme = useTheme();
-
-  const option = useMemo(
-    () => ({
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow',
-        },
+  const options = {
+    title: {
+      text: '',
+      left: 'center',
+      textStyle: {
+        color: 'white'
       },
-      grid: {
-        top: 40,
-        bottom: 70,
-        left: 50,
-        right: 0,
+      padding: [20, 0, 0, 0]
+    },
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      orient: 'horizontal',
+      left: 'top',
+      top: 'top',
+      textStyle: {
+        color: 'white'
       },
-      xAxis: {
-        type: 'category',
-        data: data.categories,
-        axisTick: {
-          show: false,
-        },
-        axisLine: {
-          show: false,
-        },
-        axisLabel: {
-          color: theme.palette.text.secondary,
-          fontSize: theme.typography.caption.fontSize,
-          fontFamily: fontFamily.monaSans,
-          margin: 24,
-        },
+      itemGap: 20
+    },
+    grid: {
+      top: '20%',
+      bottom: '10%'
+    },
+    xAxis: {
+      type: 'category',
+      data: data.categories,
+      axisLine: {
+        lineStyle: {
+          color: 'white'
+        }
       },
-      yAxis: {
-        type: 'value',
-        axisLabel: {
-          color: theme.palette.text.secondary,
-          fontSize: theme.typography.caption.fontSize,
-          fontFamily: fontFamily.monaSans,
-          formatter: (value: number) => {
-            if (value === 0) {
-              return '1k';
-            } else if (value === 2000) {
-              return '2k';
-            } else if (value === 4000) {
-              return '4k';
-            } else if (value === 6000) {
-              return '6k';
-            } else if (value === 8000) {
-              return '8k';
-            } else if (value === 10000) {
-              return '10K';
-            } else {
-              return value;
-            }
-          },
-        },
-        splitLine: {
-          show: false,
-        },
-        interval: 2000,
-        max: 10000,
+      axisLabel: {
+        color: 'white'
+      }
+    },
+    yAxis: {
+      type: 'value',
+      axisLine: {
+        lineStyle: {
+          color: 'white'
+        }
       },
-      series: data.series.map((item, index) => ({
-        name: item.name,
-        type: 'bar',
-        stack: 'total',
-        barWidth: 8,
-        label: {
-          show: false,
-        },
-        emphasis: {
-          focus: 'series',
-        },
+      axisLabel: {
+        color: 'white'
+      }
+    },
+    series: data.series.map((seriesData: { name: any; data: any; }) => ({
+      name: seriesData.name,
+      type: chartType,
+      stack: 'total', // Stack bars of the same type
+      data: seriesData.data,
+      emphasis: {
         itemStyle: {
-          color:
-            index === 0
-              ? theme.palette.primary.main
-              : index === 1
-                ? theme.palette.secondary.lighter
-                : theme.palette.secondary.main,
-        },
-        data: item.data,
-      })),
-    }),
-    [theme],
-  );
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: 'rgba(0, 0, 0, 0.5)'
+        }
+      }
+    }))
+  };
 
-  return <ReactEchart ref={chartRef} echarts={echarts} option={option} {...rest} />;
+  return (
+    <EChartsReact
+      ref={chartRef}
+      option={options}
+      style={{ height: '400px', width: '100%' }}
+      onEvents={{ click: handleChartClick }} // Handle click event on the chart
+    />
+  );
 };
 
 export default RevenueChart;

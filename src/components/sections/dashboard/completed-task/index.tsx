@@ -26,7 +26,9 @@ const CompletedTask = () => {
           <RateChip rate={'16.8%'} isUp={true} />
         </Stack>
 
-        <DateSelect />
+        <DateSelect onChange={function (_value: string): void {
+          throw new Error('Function not implemented.');
+        } } />
       </Stack>
 
       {/* line chart */}

@@ -11,6 +11,7 @@ import Image from 'components/base/Image';
 import LogoImg from 'assets/images/Logo.png';
 import LanguageSelect from './LanguageSelect';
 import ProfileMenu from './ProfileMenu';
+import { useUser } from 'routes/context/UserContext';
 
 interface TopbarProps {
   isClosing: boolean;
@@ -19,6 +20,7 @@ interface TopbarProps {
 }
 
 const Topbar = ({ isClosing, mobileOpen, setMobileOpen }: TopbarProps) => {
+  const userData = useUser()
   const handleDrawerToggle = () => {
     if (!isClosing) {
       setMobileOpen(!mobileOpen);
@@ -26,50 +28,54 @@ const Topbar = ({ isClosing, mobileOpen, setMobileOpen }: TopbarProps) => {
   };
 
   return (
-    <Stack alignItems="center" justifyContent="space-between" mb={{ xs: 0, lg: 1 }}>
-      <Stack spacing={2} alignItems="center">
-        <Toolbar sx={{ display: { xm: 'block', lg: 'none' } }}>
-          <IconButton
-            size="medium"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={handleDrawerToggle}
-          >
-            <IconifyIcon icon="mingcute:menu-line" />
-          </IconButton>
-        </Toolbar>
+    <>
+      {
+        userData.user.login && <Stack alignItems="center" justifyContent="space-between" mb={{ xs: 0, lg: 1 }}>
+          <Stack spacing={2} alignItems="center">
+            <Toolbar sx={{ display: { xm: 'block', lg: 'none' } }}>
+              <IconButton
+                size="medium"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={handleDrawerToggle}
+              >
+                <IconifyIcon icon="mingcute:menu-line" />
+              </IconButton>
+            </Toolbar>
 
-        <ButtonBase
-          component={Link}
-          href="/"
-          disableRipple
-          sx={{ display: { xm: 'block', lg: 'none' } }}
-        >
-          <Image src={LogoImg} alt="logo" height={24} width={24} style={{borderRadius:'50%'}} />
-        </ButtonBase>
+            <ButtonBase
+              component={Link}
+              href="/"
+              disableRipple
+              sx={{ display: { xm: 'block', lg: 'none' } }}
+            >
+              <Image src={LogoImg} alt="logo" height={24} width={24} style={{ borderRadius: '50%' }} />
+            </ButtonBase>
 
-        <Typography
-          variant="h5"
-          fontWeight={600}
-          letterSpacing={1}
-          fontFamily={fontFamily.workSans}
-          display={{ xs: 'none', lg: 'block' }}
-        >
-          Analytics
-        </Typography>
-      </Stack>
+            <Typography
+              variant="h5"
+              fontWeight={600}
+              letterSpacing={1}
+              fontFamily={fontFamily.workSans}
+              display={{ xs: 'none', lg: 'block' }}
+            >
+              {userData.user.role} Dashboard
+            </Typography>
+          </Stack>
 
-      <Stack spacing={1} alignItems="center">
-        <LanguageSelect />
-        <Tooltip title="Notifications">
-          <IconButton size="large" sx={{ color: 'text.secondary' }}>
-            <IconifyIcon icon="ion:notifications" />
-          </IconButton>
-        </Tooltip>
-        <ProfileMenu />
-      </Stack>
-    </Stack>
+          <Stack spacing={1} alignItems="center">
+            <LanguageSelect />
+            <Tooltip title="Notifications">
+              <IconButton size="large" sx={{ color: 'text.secondary' }}>
+                <IconifyIcon icon="ion:notifications" />
+              </IconButton>
+            </Tooltip>
+            <ProfileMenu />
+          </Stack>
+        </Stack>
+      }
+    </>
   );
 };
 

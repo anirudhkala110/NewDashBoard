@@ -11,22 +11,22 @@ interface LegendProps {
     rate: string;
   };
   toggleColor: {
-    organic: boolean;
-    social: boolean;
-    direct: boolean;
+    type0: boolean;
+    type1: boolean;
+    type2: boolean;
   };
   handleToggleLegend: (e: React.MouseEvent<HTMLButtonElement>, type: string | null) => void;
 }
 
 const VisitorsChartLegend = ({ data, toggleColor, handleToggleLegend }: LegendProps) => {
-  let color = '';
+  let color = 'white';
 
-  if (toggleColor.organic && data.type === 'Organic') {
-    color = 'primary.main';
-  } else if (toggleColor.social && data.type === 'Social') {
-    color = 'secondary.lighter';
-  } else if (toggleColor.direct && data.type === 'Direct') {
-    color = 'secondary.light';
+  if (toggleColor.type0 && data.type === 'Type 1') {
+    color = '#5470C6';
+  } else if (toggleColor.type1 && data.type === 'Type 2') {
+    color = '#91CC75';
+  } else if (toggleColor.type2 && data.type === 'Type 3') {
+    color = '#FAC858';
   } else {
     color = 'text.secondary';
   }
@@ -36,7 +36,7 @@ const VisitorsChartLegend = ({ data, toggleColor, handleToggleLegend }: LegendPr
       <ButtonBase onClick={(e) => handleToggleLegend(e, data.type)} disableRipple>
         <Stack spacing={1} alignItems="center">
           <Box height={8} width={8} bgcolor={color} borderRadius={1} />
-          <Typography variant="body1" color="text.secondary" fontFamily={fontFamily.workSans}>
+          <Typography variant="body1" color="text.primary" fontFamily={fontFamily.workSans}>
             {data.type}
           </Typography>
         </Stack>

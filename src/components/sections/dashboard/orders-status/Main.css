@@ -1,5 +1,21 @@
 /* Main.css */
 .custom-datagrid .checked-report {
-    color: #00ff2f38 ; /* Background color when d_report is checked */
+  color: #00ff2f38;
+  /* Background color when d_report is checked */
+}
+
+.hide750px {
+  display: block;
+}
+.more750px {
+  display: block;
+}
+
+@media only screen and (max-width:1750px) {
+  .hide750px {
+    display: block;
   }
-  
+  .more750px {
+    display: none;
+  }
+}

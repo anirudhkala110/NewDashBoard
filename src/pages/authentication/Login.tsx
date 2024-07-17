@@ -1,17 +1,19 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import Divider from '@mui/material/Divider';
+// import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import Checkbox from '@mui/material/Checkbox';
 import IconifyIcon from 'components/base/IconifyIcon';
 import paths from 'routes/paths';
+import axios from 'axios';
 
+axios.defaults.withCredentials = true
 interface User {
   [key: string]: string;
 }
@@ -27,14 +29,36 @@ const Login = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(user);
+    axios.post('http://localhost:5021/login', { email: user.email, password: user.password })
+      .then(res => {
+        console.log(res.data)
+        if (res.data.msg === 'Login Successfully . . .') {
+          window.location.href = '/'
+        }
+        else {
+          alert(res.data.msg)
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
   };
+
+  // useEffect(() => {
+  //   axios.get('http://localhost:5021/loggin')
+  //     .then(res => console.log(res.data.msg))
+  //     .catch(err => {
+  //       console.log(err)
+  //     })
+  // })
 
   return (
     <>
       <Typography align="center" variant="h3" fontWeight={600}>
         LogIn
       </Typography>
-      <Stack direction={{ xs: 'column', sm: 'row' }} mt={4} spacing={2} width={1}>
+      <hr/>
+      {/* <Stack direction={{ xs: 'column', sm: 'row' }} mt={4} spacing={2} width={1}>
         <Button
           variant="contained"
           color="primary"
@@ -52,7 +76,7 @@ const Login = () => {
           Login with Apple
         </Button>
       </Stack>
-      <Divider sx={{ my: 3 }}>or Login with</Divider>
+      <Divider sx={{ my: 3 }}>or Login with</Divider> */}
       <Stack onSubmit={handleSubmit} component="form" direction="column" gap={2}>
         <TextField
           id="email"
@@ -93,7 +117,7 @@ const Login = () => {
             ),
           }}
         />
-        <Stack mt={-1.5} alignItems="center" justifyContent="space-between">
+        {/* <Stack mt={-1.5} alignItems="center" justifyContent="space-between">
           <FormControlLabel
             control={<Checkbox id="checkbox" name="checkbox" color="primary" />}
             label="Remember me"
@@ -101,11 +125,11 @@ const Login = () => {
           <Link href="#!" fontSize="body2.fontSize" letterSpacing={0.5}>
             Forgot password?
           </Link>
-        </Stack>
+        </Stack> */}
         <Button type="submit" variant="contained" size="medium" fullWidth>
           Submit
         </Button>
-        <Typography
+        {/* <Typography
           my={3}
           color="text.secondary"
           variant="body2"
@@ -113,7 +137,7 @@ const Login = () => {
           letterSpacing={0.5}
         >
           Don't have an account? <Link href={paths.signup}>{'Signup'}</Link>
-        </Typography>
+        </Typography> */}
       </Stack>
     </>
   );

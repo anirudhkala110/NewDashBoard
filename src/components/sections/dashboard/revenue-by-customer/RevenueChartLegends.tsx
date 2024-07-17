@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { revenueData } from './index';
 import Stack from '@mui/material/Stack';
 import EChartsReactCore from 'echarts-for-react/lib/core';
 import RevenueChartLegend from './RevenueChartLegend';
@@ -12,53 +11,65 @@ interface LegendsProps {
 const legendsData = [
   {
     id: 1,
-    type: 'Current clients',
+    type: 'Type 1',
+    color: '#5976D2', // Define colors for each legend item
   },
   {
     id: 2,
-    type: 'Subscribers',
+    type: 'Type 2',
+    color: '#9FE080',
   },
   {
     id: 3,
-    type: 'New customers',
+    type: 'Type 3',
+    color: '#FAD85E',
   },
 ];
 
 const RevenueChartLegends = ({ chartRef, sm }: LegendsProps) => {
-  const [toggleColor, setToggleColor] = useState({
-    currentClients: true,
-    subscribers: true,
-    newCustomers: true,
+  const [toggleState, setToggleState] = useState({
+    type1: true,
+    type2: true,
+    type3: true,
   });
 
   const handleLegendToggle = (seriesName: string) => {
     const echartsInstance = chartRef.current?.getEchartsInstance();
     if (!echartsInstance) return;
 
-    if (seriesName === 'Current clients') {
-      setToggleColor({ ...toggleColor, currentClients: !toggleColor.currentClients });
-    } else if (seriesName === 'Subscribers') {
-      setToggleColor({ ...toggleColor, subscribers: !toggleColor.subscribers });
-    } else if (seriesName === 'New customers') {
-      setToggleColor({ ...toggleColor, newCustomers: !toggleColor.newCustomers });
+    switch (seriesName) {
+      case 'Type 1':
+        setToggleState({ ...toggleState, type1: !toggleState.type1 });
+        break;
+      case 'Type 2':
+        setToggleState({ ...toggleState, type2: !toggleState.type2 });
+        break;
+      case 'Type 3':
+        setToggleState({ ...toggleState, type3: !toggleState.type3 });
+        break;
+      default:
+        break;
     }
 
+    // Update chart series based on toggled state
     const option = echartsInstance.getOption() as echarts.EChartsOption;
-
     if (Array.isArray(option.series)) {
-      const series = option.series.map((s) => {
+      const updatedSeries = option.series.map((s) => {
         if (s.name === seriesName && s.type === 'bar') {
           const isBarVisible = (s.data as number[]).some((value) => value !== 0);
           return {
             ...s,
             data: isBarVisible
               ? (s.data as number[]).map(() => 0)
-              : revenueData.series.find((s) => s.name === seriesName)?.data || [],
+              : revenueData.series.find((item) => item.name === seriesName)?.data || [],
           };
         }
         return s;
       });
-      echartsInstance.setOption({ series });
+
+      echartsInstance.setOption({
+        series: updatedSeries,
+      });
     }
   };
 
@@ -74,7 +85,7 @@ const RevenueChartLegends = ({ chartRef, sm }: LegendsProps) => {
         <RevenueChartLegend
           key={item.id}
           data={item}
-          toggleColor={toggleColor}
+          isActive={toggleState[`type${item.id}`]}
           handleLegendToggle={handleLegendToggle}
         />
       ))}

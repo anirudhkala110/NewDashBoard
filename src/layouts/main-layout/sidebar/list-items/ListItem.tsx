@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { MenuItem } from 'routes/sitemap';
 import Link from '@mui/material/Link';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -6,18 +7,18 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import IconifyIcon from 'components/base/IconifyIcon';
 
-const ListItem = ({ subheader, icon, path, active }: MenuItem) => {
-  const [open, setOpen] = useState(false);
+const ListItem = ({ subheader, icon, path }: MenuItem) => {
+  const location = useLocation();
+  const [active, setActive] = useState(false);
 
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  useEffect(() => {
+    setActive(location.pathname === path);
+  }, [location.pathname, path]);
 
   return (
     <ListItemButton
       component={Link}
       href={path}
-      onClick={handleClick}
       sx={{ opacity: active ? 1 : 0.8 }}
     >
       <ListItemIcon>
@@ -25,7 +26,7 @@ const ListItem = ({ subheader, icon, path, active }: MenuItem) => {
           <IconifyIcon
             icon={icon}
             sx={{
-              color: active && path === '/' ? 'primary.main' : null,
+              color: active ? 'primary.main' : null,
             }}
           />
         )}
@@ -34,7 +35,7 @@ const ListItem = ({ subheader, icon, path, active }: MenuItem) => {
         primary={subheader}
         sx={{
           '& .MuiListItemText-primary': {
-            color: active && path === '/' ? 'primary.main' : null,
+            color: active ? 'primary.main' : null,
           },
         }}
       />

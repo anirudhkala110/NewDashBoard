@@ -3,20 +3,19 @@ import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
-import Button from '@mui/material/Button';
 import ButtonBase from '@mui/material/ButtonBase';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
 import Typography from '@mui/material/Typography';
 import Image from 'components/base/Image';
-import IconifyIcon from 'components/base/IconifyIcon';
 import CollapseListItem from './list-items/CollapseListItem';
 import ProfileListItem from './list-items/ProfileListItem';
 import ListItem from './list-items/ListItem';
 import LogoImg from 'assets/images/Logo.png';
 import { topListData, bottomListData, profileListData } from 'data/sidebarListData';
+import { useUser } from 'routes/context/UserContext';
 
 const DrawerItems = () => {
+  const { user } = useUser();
+
   return (
     <>
       <Stack
@@ -33,58 +32,28 @@ const DrawerItems = () => {
         <ButtonBase component={Link} href="/" disableRipple>
           <Image src={LogoImg} alt="logo" height={24} width={24} sx={{ mr: 1 }} style={{ borderRadius: '50%' }} />
           <Typography variant="h5" color="text.primary" fontWeight={600} letterSpacing={1}>
-            AK's (Admin)
+            {user.username}
           </Typography>
         </ButtonBase>
       </Stack>
 
-      <Box px={3.5} pb={3} pt={1}>
-        <TextField
-          variant="filled"
-          placeholder="Search for..."
-          sx={{ width: 1 }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <IconifyIcon icon={'mingcute:search-line'} />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
-
       <List component="nav" sx={{ px: 2.5 }}>
-        {topListData.map((route, index) => {
-          return <ListItem key={index} {...route} />;
-        })}
+        {topListData.map((route, index) => (
+          <ListItem key={index} {...route} />
+        ))}
       </List>
 
       <Divider />
 
       <List component="nav" sx={{ px: 2.5 }}>
-        {bottomListData.map((route) => {
-          if (route.items) {
-            return <CollapseListItem key={route.id} {...route} />;
-          }
-          return <ListItem key={route.id} {...route} />;
-        })}
+        {bottomListData.map((route) => (
+          route.items ? <CollapseListItem key={route.id} {...route} /> : <ListItem key={route.id} {...route} />
+        ))}
       </List>
 
       <List component="nav" sx={{ px: 2.5 }}>
         {profileListData && <ProfileListItem {...profileListData} />}
       </List>
-
-      <Box px={3.5} pt={6} pb={20} width={1}>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          endIcon={<IconifyIcon icon="mingcute:arrow-left-line" />}
-          sx={{ width: 1 }}
-        >
-          {/* Get template */}
-        </Button>
-      </Box>
     </>
   );
 };
