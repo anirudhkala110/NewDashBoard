@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 const DataBackend = () => {
     const [rows, setRows] = useState([])
     useEffect(() => {
-        axios.get('http://localhost:5021/getAllData')
+        axios.get('https://dashadmin.nayar-valley-home-stay.in/getAllData')
             .then(result => {
                 console.log(result)
                 setRows(result.data)

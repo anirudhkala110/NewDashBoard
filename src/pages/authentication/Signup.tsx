@@ -36,7 +36,7 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5021/verifyEmail', { email: user.email });
+      const response = await axios.post('https://dashadmin.nayar-valley-home-stay.in/verifyEmail', { email: user.email });
       setMsg(response.data.msg);
       setMsg_Type(response.data.msg_type);
       setOtpSent(response.data.otpSent);
@@ -52,7 +52,7 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5021/verifyOTP', { otp });
+      const response = await axios.post('https://dashadmin.nayar-valley-home-stay.in/verifyOTP', { otp });
       if (response.data.msg === "OTP verified successfully") {
         setOtpVerified(true)
       }
@@ -74,7 +74,7 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5021/register/email', {
+      const response = await axios.post('https://dashadmin.nayar-valley-home-stay.in/register/email', {
         username: user.username,
         role: user.role,
         phone: user.phone,
@@ -107,7 +107,7 @@ const Signup = () => {
   const [owner, setOwner] = useState(false)
   const [admin, setAdmin] = useState(false)
   useEffect(() => {
-    axios.get('http://localhost:5021/getAdmin')
+    axios.get('https://dashadmin.nayar-valley-home-stay.in/getAdmin')
       .then(res => {
         console.log(res.data)
         setAdmin(res.data.validation)
@@ -115,7 +115,7 @@ const Signup = () => {
       .catch(err => {
         console.log(err)
       })
-    axios.get('http://localhost:5021/getOwner')
+    axios.get('https://dashadmin.nayar-valley-home-stay.in/getOwner')
       .then(res => {
         console.log(res.data)
         setOwner(res.data.validation)

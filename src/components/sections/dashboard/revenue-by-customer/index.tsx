@@ -22,11 +22,11 @@ const RevenueByCustomer = () => {
   const [total, setTotal] = useState()
   const fetchSalesData = async (timeFrame: string) => {
     try {
-      const price = await axios.get(`http://localhost:5021/total_price`);
+      const price = await axios.get(`https://dashadmin.nayar-valley-home-stay.in/total_price`);
       if (price) {
         setTotal(price.data.total)
       }
-      const response = await axios.get(`http://localhost:5021/device_sales?timeFrame=${timeFrame}`);
+      const response = await axios.get(`https://dashadmin.nayar-valley-home-stay.in/device_sales?timeFrame=${timeFrame}`);
       const { salesData } = response.data; // Destructure salesData from the response
 
       // Process salesData to aggregate total amounts per month and type

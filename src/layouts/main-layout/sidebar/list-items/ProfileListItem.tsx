@@ -13,7 +13,7 @@ const ProfileListItem = ({ subheader, path }: MenuItem) => {
     <ListItemButton component={Link} href={path}>
       <Stack spacing={1} alignItems="center">
         <Avatar
-          src={`http://localhost:5021/Images/${userData.user.profilePic}`}
+          src={`https://dashadmin.nayar-valley-home-stay.in/Images/${userData.user.profilePic}`}
           sx={{ height: 36, width: 36, bgcolor: 'primary.main' }} />
         <Stack direction="column">
           <Typography variant="subtitle2" color="text.primary" letterSpacing={0.5}>

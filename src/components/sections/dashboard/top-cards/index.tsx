@@ -14,7 +14,7 @@ const TopCards = () => {
   const [price, setPrice] = useState(100);
 
   useEffect(() => {
-    axios.get('http://localhost:5021/get_users_devices_relays')
+    axios.get('https://dashadmin.nayar-valley-home-stay.in/get_users_devices_relays')
       .then(res => {
         const data = res.data;
         setTotalUsers(data.totalUsers || 0);
@@ -33,7 +33,7 @@ const TopCards = () => {
     if (deviceID === '' || version == null || type == null)
       return alert("Enter All data")
     else {
-      axios.post('http://localhost:5021/put_device_data', { deviceid: deviceID, type: type, version: version, price: price })
+      axios.post('https://dashadmin.nayar-valley-home-stay.in/put_device_data', { deviceid: deviceID, type: type, version: version, price: price })
         .then(res => {
           console.log(res)
           setMsg(res.data.msg)

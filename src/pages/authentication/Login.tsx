@@ -29,7 +29,7 @@ const Login = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(user);
-    axios.post('http://localhost:5021/login', { email: user.email, password: user.password })
+    axios.post('https://dashadmin.nayar-valley-home-stay.in/login', { email: user.email, password: user.password })
       .then(res => {
         console.log(res.data)
         if (res.data.msg === 'Login Successfully . . .') {
@@ -45,7 +45,7 @@ const Login = () => {
   };
 
   // useEffect(() => {
-  //   axios.get('http://localhost:5021/loggin')
+  //   axios.get('https://dashadmin.nayar-valley-home-stay.in/loggin')
   //     .then(res => console.log(res.data.msg))
   //     .catch(err => {
   //       console.log(err)

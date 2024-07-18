@@ -6,7 +6,7 @@ const Products = () => {
   const [data, setData] = useState({ msg: '', type1_count: 0, type2_count: 0, type3_count: 0 });
 
   useEffect(() => {
-    axios.get('http://localhost:5021/get_all_device_data')
+    axios.get('https://dashadmin.nayar-valley-home-stay.in/get_all_device_data')
       .then(res => {
         // console.log("Data fetched:", res.data);
         setData(res.data); // Assuming res.data contains { msg: 'Backend Connected...', type1_count: 20, type2_count: 20, type3_count: 20 }

@@ -31,7 +31,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:5021/loggin')
+    axios.get('https://dashadmin.nayar-valley-home-stay.in/loggin')
       .then(res => {
         setUser(res.data);
       })

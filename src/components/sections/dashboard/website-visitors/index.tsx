@@ -15,7 +15,7 @@ const WebsiteVisitors = () => {
   const [deviceData, setDeviceData] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5021/get_device_data')
+    axios.get('https://dashadmin.nayar-valley-home-stay.in/get_device_data')
       .then(res => {
         console.log(res.data)
         const data = res.data.totalDevice.filter((device: { sell: number; }) => device.sell === 1); // Only sold devices

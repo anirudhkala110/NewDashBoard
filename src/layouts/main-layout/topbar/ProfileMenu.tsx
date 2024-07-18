@@ -67,7 +67,7 @@ const ProfileMenu = () => {
   };
 
   const handleLogout = () => {
-    axios.get('http://localhost:5021/logout')
+    axios.get('https://dashadmin.nayar-valley-home-stay.in/logout')
       .then(res => {
         if (res.data.msg_type === 'good') {
           window.location.reload(); // Reload the page
@@ -96,7 +96,7 @@ const ProfileMenu = () => {
             aria-haspopup="true"
           >
             <Avatar
-              src={`http://localhost:5021/Images/${userData.user.profilePic}`}
+              src={`https://dashadmin.nayar-valley-home-stay.in/Images/${userData.user.profilePic}`}
               sx={(theme) => ({
                 ml: 0.8,
                 height: 32,
@@ -135,7 +135,7 @@ const ProfileMenu = () => {
       >
         <MenuItem onClick={handleProfileMenuClose} sx={{ '&:hover': { bgcolor: 'info.main' } }}>
           <Avatar
-            src={`http://localhost:5021/Images/${userData.user.profilePic}`}
+            src={`https://dashadmin.nayar-valley-home-stay.in/Images/${userData.user.profilePic}`}
             sx={{
               bgcolor: 'primary.main',
             }}

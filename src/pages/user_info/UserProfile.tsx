@@ -17,10 +17,10 @@ const UserProfile: React.FC = () => {
 
   useEffect(() => {
     if (user && user.login) {
-      axios.get(`http://localhost:5021/user_profile/${user.email}`)
+      axios.get(`https://dashadmin.nayar-valley-home-stay.in/user_profile/${user.email}`)
         .then(res => {
           setUserCompleteData(res.data.userCompleteData);
-          console.log(res.data.userCompleteData);
+          // console.log(res.data.userCompleteData);
           setLoading(false);
         })
         .catch(err => {
@@ -54,7 +54,7 @@ const UserProfile: React.FC = () => {
     // alert("Pic Entered")
 
     try {
-      const response = await axios.post('http://localhost:5021/upload_profile_pic', formData);
+      const response = await axios.post('https://dashadmin.nayar-valley-home-stay.in/upload_profile_pic', formData);
       // console.log(response.data);
       setMsg(response.data.msg)
       // Optionally update state or show success message
@@ -104,7 +104,7 @@ const UserProfile: React.FC = () => {
         )}
       </div>
       <div className='col-lg-6 col-md-6 col-sm-12 p-3' style={{ background: '#0B1739' }}>
-        <img className='col-12 img-thumbnail mb-3' src={`http://localhost:5021/Images/${completeData.profilePic}`} alt="User Avatar" style={{ maxHeight: '400px', width: '100%' }} />
+        <img className='col-12 img-thumbnail mb-3' src={`https://dashadmin.nayar-valley-home-stay.in/Images/${completeData.profilePic}`} alt="User Avatar" style={{ maxHeight: '400px', width: '100%' }} />
         <center>
           <b className='bi bi-gear-fill fs-4 border rounded px-5 py-1' style={{ background: `${editImage ? '#AC35DD' : ''}`, transform: `${editImage ? 'rotate(-90deg)' : 'rotate(0deg)'} `, cursor: 'pointer' }} onClick={() => setEditImage(!editImage)}> Upload new Profile Pic</b>
         </center>

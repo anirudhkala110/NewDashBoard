@@ -35,7 +35,7 @@ const useOrdersStatusData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get<{ data: OrderRow[] }>('http://localhost:5021/getAllData');
+        const res = await axios.get<{ data: OrderRow[] }>('https://dashadmin.nayar-valley-home-stay.in/getAllData');
         console.log(res)
         const processedData = res.data.data.map((item) => {
           const { latitude, longitude, address } = parseAddress(item.address);

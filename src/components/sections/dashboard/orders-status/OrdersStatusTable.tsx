@@ -26,7 +26,7 @@ const useOrdersStatusData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get<{ data: OrderRow[] }>('http://localhost:5021/getAllData');
+        const res = await axios.get<{ data: OrderRow[] }>('https://dashadmin.nayar-valley-home-stay.in/getAllData');
         const processedData = res.data.data.map((item) => {
           return { ...item };
         });
@@ -58,9 +58,10 @@ const OrdersStatusTable = () => {
 
   const handleRowClick: GridEventListener<'rowClick'> = (params) => {
     const { userID } = params.row;
-    axios.post(`http://localhost:5021/get_user_data_by_userID/${userID}`, { userId: userID })
+    axios.post(`https://dashadmin.nayar-valley-home-stay.in/get_user_data_by_userID/${userID}`, { userId: userID })
       .then(res => {
         setUserData(res.data.user); // Assuming the response data is an array
+        console.log(res.data)
         setOpenInfo(true);
       })
       .catch(err => {
@@ -92,7 +93,7 @@ const OrdersStatusTable = () => {
   const [allRelaysOpen, setAllRelaysOpen] = useState(false);
 
   const handleAllDevices = (userID: any) => {
-    axios.get(`http://localhost:5021/get_specific_users_connected_devices/${userID}`)
+    axios.get(`https://dashadmin.nayar-valley-home-stay.in/get_specific_users_connected_devices/${userID}`)
       .then(res => {
         setAllDevices(res.data.totalDevice);
         setAllDevicesOpen(true);
@@ -104,7 +105,7 @@ const OrdersStatusTable = () => {
   };
 
   const handleAllRelays = (userID: any) => {
-    axios.get(`http://localhost:5021/get_specific_users_relay_data/${userID}`)
+    axios.get(`https://dashadmin.nayar-valley-home-stay.in/get_specific_users_relay_data/${userID}`)
       .then(res => {
         setAllRelays(res.data.relayData);
         setAllRelaysOpen(true);
@@ -180,7 +181,7 @@ const OrdersStatusTable = () => {
             </div>
             {/* <div className='col-sm-12 col-lg-6 col-md-6 mb-3'> */}
             {/* <img className='col-sm-12 col-lg-6 col-md-6 mb-3' src='https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg' style={{maxWidth:'275px',maxHeight:'300px'}} /> */}
-            <img className='col-sm-12 col-lg-6 col-md-6 mb-3' src='https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg' style={{ maxWidth: '500px', maxHeight: '500px' }} />
+            <img className='col-sm-12 col-lg-6 col-md-6 mb-3' src={`https://dashadmin.nayar-valley-home-stay.in/Images/${userData.profilePic}`} style={{ maxWidth: '500px', maxHeight: '500px' }} />
             {/* </div> */}
             <div className='container-fluid'>
               <div className='row'>
@@ -220,20 +221,20 @@ const OrdersStatusTable = () => {
             <tbody>
               {allDevices.map((device, idx) => (
                 <tr key={device.id}>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{device.deviceid}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{device.version}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{device.deviceid}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{device.version}</td>
                   {/* <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{device.address}</td> */}
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{device.type}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{device.relay1 ==='' ||device.relay1 ==='N/A' || device.relay1===null ?<b className='bi bi-x-lg text-danger'></b>:device.relay1}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{device.relay2 ==='' ||device.relay2 ==='N/A' || device.relay2===null ?<b className='bi bi-x-lg text-danger'></b>:device.relay2}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{device.relay3 ==='' ||device.relay3 ==='N/A' || device.relay3===null ?<b className='bi bi-x-lg text-danger'></b>:device.relay3}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{device.relay4 ==='' ||device.relay4 ==='N/A' || device.relay4===null ?<b className='bi bi-x-lg text-danger'></b>:device.relay4}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{device.status}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{device.stock ? 'Sell':"Not Sell"}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{device.query}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{device.type}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{device.relay1 === '' || device.relay1 === 'N/A' || device.relay1 === null ? <b className='bi bi-x-lg text-danger'></b> : device.relay1}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{device.relay2 === '' || device.relay2 === 'N/A' || device.relay2 === null ? <b className='bi bi-x-lg text-danger'></b> : device.relay2}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{device.relay3 === '' || device.relay3 === 'N/A' || device.relay3 === null ? <b className='bi bi-x-lg text-danger'></b> : device.relay3}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{device.relay4 === '' || device.relay4 === 'N/A' || device.relay4 === null ? <b className='bi bi-x-lg text-danger'></b> : device.relay4}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{device.status}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{device.stock ? 'Sell' : "Not Sell"}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{device.query}</td>
                   {/* <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{device.userID}</td> */}
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{new Date(device.createdAt).toLocaleString()}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{new Date(device.updatedAt).toLocaleString()}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{new Date(device.createdAt).toLocaleString()}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{new Date(device.updatedAt).toLocaleString()}</td>
                 </tr>
               ))}
             </tbody>
@@ -289,7 +290,7 @@ const OrdersStatusTable = () => {
               <tr>
                 {/* <th>ID</th> */}
                 <th style={{ background: '#0A1330', color: 'white' }}>Relay ID</th>
-                <th style={{ background: '#0A1330', color: 'white' }}> Area</th>
+                <th style={{ background: '#0A1330', color: 'white' }}>Area</th>
                 <th style={{ background: '#0A1330', color: 'white' }}>Device Name</th>
                 <th style={{ background: '#0A1330', color: 'white' }}>Device Company </th>
                 <th style={{ background: '#0A1330', color: 'white' }}>Power</th>
@@ -299,22 +300,24 @@ const OrdersStatusTable = () => {
                 {/* <th>User ID</th> */}
                 <th style={{ background: '#0A1330', color: 'white' }}>Created</th>
                 <th style={{ background: '#0A1330', color: 'white' }}>Updated</th>
+                {/* <th style={{ background: '#0A1330', color: 'white' }}>Edit</th> */}
+                {/* <th style={{ background: '#0A1330', color: 'white' }}>Delete</th> */}
               </tr>
             </thead>
             <tbody>
-              {allRelays && allRelays.map((relay,idx) => (
+              {allRelays && allRelays.map((relay, idx) => (
                 <tr key={idx}>
                   {/* <td>{relay.id}</td> */}
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{relay.relayID}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{relay.connectedArea}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{relay.relayName}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{relay.deviceCompanyName}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{relay.power}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{relay.status}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{relay.deviceConnected ? 'Yes' : 'No'}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{relay.deviceID}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{new Date(relay.createdAt).toLocaleString()}</td>
-                  <td style={{ background: `${idx % 2 == 0 ?  '#0B1739':'#0A1330'}`, color: 'white' }}>{new Date(relay.updatedAt).toLocaleString()}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{relay.relayID}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{relay.connectedArea}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{relay.relayName}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{relay.deviceCompanyName}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{relay.power}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{relay.status}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{relay.deviceConnected ? 'Yes' : 'No'}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{relay.deviceID}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{new Date(relay.createdAt).toLocaleString()}</td>
+                  <td style={{ background: `${idx % 2 == 0 ? '#0B1739' : '#0A1330'}`, color: 'white' }}>{new Date(relay.updatedAt).toLocaleString()}</td>
                   {/* <td>{relay.userID}</td> */}
                 </tr>
               ))}
